@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Pulse - A Structured & Reliable Messaging Layer ">
+    <meta property="og:description" content="Pulse was made to resolve one thing: Make cross-server communication more structured.">
+    <meta property="og:image" content="https://github.com/NotDumbDev/MotionX/tree/main/images/FavIcon.ico">
+    <meta property="og:url" content="https://notdumbdev.github.io/MotionX/">
+
+    <title>Pulse Documentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" type="image/x-icon" href="images/FavIcon.ico">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-lua.min.js"></script>
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">Pulse <span class="smalltext">- made with lots of love :3</span> </div>
+                <div class="version">Pulse V1.0.0</div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <section class="hero">
+                <h1>Pulse</h1>
+                <p>Anything about cross-server messaging, in one place.</p>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>Smart Subscriptions</h3>
+                        <p>Easily subscribe, unsubscribe, and track active listeners with safety checks.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Safe & Reliable</h3>
+                        <p>Extra guardrails on top of MessagingService to reduce errors.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Extensible by Design</h3>
+                        <p>Add your own utilities and build on Pulse without fighting the API.</p>
+                    </div>
+                </div>
+            </section>
+            <div class="card">
+                <h2 class="card-title">What is Pulse?</h2>
+                <div class="card-body">
+                    <strong>Pulse</strong> is an extensible messaging framework for Roblox built on top of MessagingService.
+Where Roblox gives you a raw pub/sub system, Pulse gives you servers, topics, and utilities that make communication organized, reliable, and scalable.
+                </div>
+            </div>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="installation"
+                    onclick="switchTab('installation')">Installation</button>
+                <button class="tab-button" data-tab="gettingstarted" onclick="switchTab('gettingstarted')">Getting
+                    Started</button>
+                <button class="tab-button" data-tab="api" onclick="switchTab('api')">API</button>
+                <button class="tab-button" data-tab="changelogs"
+                    onclick="switchTab('changelogs')">Change Logs</button>
+            </div>
+
+            <div id="installation" class="tab-content active">
+                <h2 class="card-title">Installation</h2>
+                    <h2>Roblox Installation</h2>
+                    <p>You can download Pulse from this <a
+                        href="https://create.roblox.com/store/asset/111987786866952">[link]</a></p>
+                    <p>After downloading, drag the Module into <code>ServerScriptService</code></p><br>
+                    <h2>Rojo/Wally Installation</h2>
+                    <p>As of <code>Pulse V1.0.0</code> there is no wally/rojo installation workflow.</p>
+            </div>
+            <div id="gettingstarted" class="tab-content">
+                <h2 class="card-title">Getting Started</h2>
+                <h2 class="section-title">Creating a new Server</h2><br>
+                <p>After downloading Pulse, let's initialize it so it's ready to use.</p>
+                <p>To use Pulse, you first need to create a new server. Here's how:
+                </p><br>
+
+                <p><strong>Start by requiring Pulse</strong></p>
+                <pre class="example-code"> <code class="language-lua">local Pulse = require(path.to.Pulse)</code></pre>
+
+                <p><strong>After requiring Pulse, we can use
+                        <code><a href="#method-newserver" data-target-tab="api">.newServer()</a></code> to crate a new server.</strong></p>
+<pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")</code></pre>
+
+                <div class="warning-box">
+                    <div class="box-header">
+                        <span class="material-icons icon">warning</span>
+                        <span>Warning</span>
+                    </div>
+                    <p>There cant be more than 1 service with the same name.</p>
+                </div><br>
+
+                <p>If you need to get a Server from another script, you can use <code><a href="#method-getserver" data-target-tab="api">.GetServer()</a></code> to get the server.</p>
+<pre class="example-code"> <code class="language-lua">--mainServer script
+local mainServer = Pulse.newServer("mainServer")
+--other script
+local mainServer = Pulse.GetServer("mainServer")
+</code></pre><br>
+
+
+                <h2 class="section-title">Creating a new Topic</h2><br>
+                <p>after we create a server, we will have to create a new topic to publish or subscribe. For that we can use the
+                    <code><a href="#method-newtopic" data-target-tab="api">.newTopic()</a></code> method.
+                </p>
+
+                <pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")
+local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+</code></pre>
+
+                <div class="warning-box">
+                    <div class="box-header">
+                        <span class="material-icons icon">warning</span>
+                        <span>Warning</span>
+                    </div>
+                    <p>There cant be more than 1 topic with the same name.</p>
+                </div><br>
+                
+                <p>If you need to get a Topic from another script, you can use <code><a href="#method-gettopic" data-target-tab="api">.GetTopic()</a></code> to get the topic.</p>
+<pre class="example-code"> <code class="language-lua">--mainServer script
+local announcementTopic = Pulse.newTopic("announcement")
+--other script
+local announcementTopic = Pulse.GetTopic("announcement")
+</code></pre><br>
+
+                <div class="info-box">
+                    <div class="box-header">
+                        <span class="material-icons icon">info</span>
+                        <span>Info</span>
+                    </div>
+                    <p>Additionally, if for some reason you need to get all servers or topics you can use the <code><a href="#method-gettopics" data-target-tab="api">.GetTopics()</a></code> for topics and <code><a href="#method-getservers" data-target-tab="api">.GetServers()</a></code> for servers. </p>
+
+                </div><br>
+
+                <h2 class="section-title">Subscribing & Publishing</h2><br>
+                <p>After making a service and a topic, we can start by subscribing to a topic, to do that you will have to use the
+                    <code><a href="#method-subscribe" data-target-tab="api">:Subscribe()</a></code> method on your server.
+                </p>
+<pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")
+local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+
+MyServer:Subscribe(MyTopic, function(data)
+    print(data.Data)
+end)
+</code></pre><br>
+
+                <p>This will subscribe to the server to the topic, and whenever data gets published it will print the data.</p><br>
+
+                <p style="font-size: 20px;"><strong>Publishing Data</strong></p>
+                <p>To publish/send data use the <code><a href="#method-publish" data-target-tab="api">:Publish()</a></code>
+                    method on your server.</p>
+                <pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")
+local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+MyServer:Publish(MyTopic, "Hello World!")
+</code></pre><br>
+            
+            <div class="tip-box">
+                <div class="box-header">
+                    <span class="material-icons icon">lightbulb</span>
+                    <span>Tip</span>
+                </div>
+                <p>Before calling Publish subscribe to the topic! (i know, ground breaking discovery)</p>
+
+            </div><br>
+
+            <p style="font-size: 20px;"><strong>PublishBatch</strong></p>
+            <p>If you have to send the same data to multiple topics, you can use the <code><a href="#method-publishbatch" data-target-tab="api">:PublishBatch()</a></code>
+                    method on your server.</p>
+                <pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")
+local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+local MyOtherTopic = Pulse.newTopic(MyServer, "MyOtherTopic")
+
+MyServer:Publish({MyTopic, MyOtherTopic}, "Hello World!")
+</code></pre><br>
+
+            <div class="tip-box">
+                <div class="box-header">
+                    <span class="material-icons icon">lightbulb</span>
+                    <span>Tip</span>
+                </div>
+                <p>It is best practice you put your topics in a table and then pass the table as the first argument.</p>
+
+            </div><br>
+            
+            
+            <h2 class="section-title">Unsubscribing from Topics & Destroying Topics</h2><br>
+            <p>To Unsubscribe from a topic use the <code><a href="#method-unsubscribe" data-target-tab="api">:Unsubscribe()</a></code> method.</p>
+            <pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")
+local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+
+MyServer:Unsubscribe(MyTopic)
+</code></pre><br>
+
+            <p>To destroy a topic use the <code><a href="#method-destroy" data-target-tab="api">:Destroy()</a></code> method.</p>
+            <pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")
+local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+MyTopic:Destroy()
+</code></pre><br>   
+
+        <h2 class="section-title">Scheduling publishes</h2><br>
+        <p>If you want to schedule publishes you will have to use the <code><a href="#method-schedule" data-target-tab="api">:Schedule()</a></code> method.</p>
+        <pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")
+local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+
+MyServer:Schedule(MyTopic, 5, "Hello World!")
+</code></pre><br> 
+
+        <h2 class="section-title">Utility functions</h2><br>
+        <p><strong>Getting the topics associated with a server</strong></p>
+        <p>If for some reason you need to know what topics a server has use the <code><a href="#method-gettopicst" data-target-tab="api">:GetTopics()</a></code> method on your server.</p>
+        <pre class="example-code"> <code class="language-lua">local MyServer = Pulse.newServer("MyServer")
+MyServer:GetTopics() -- will return a table with topics
+</code></pre><br>
+
+        <p><strong>Getting the server of a topic</strong></p>
+        <p>If for some reason you need the server of a topic, you will have to use the  <code><a href="#method-getservert" data-target-tab="api">:GetServer()</a></code> method on your prefereed topic.</p>
+        <pre class="example-code"> <code class="language-lua">local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+MyTopic:GetServer() -- will return the server instance
+</code></pre><br>
+
+        <p><strong>Getting a topics subscriptions & Setting max subscriptions</strong></p>
+        <p>To get the current amount of subscriptions of a topic use the <code><a href="#method-getsubscriptions" data-target-tab="api">:GetSubscriptions()</a></code> method.</p>
+        <pre class="example-code"> <code class="language-lua">local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+MyTopic:GetSubscriptions() -- will return the amount of current subscribers
+</code></pre>
+
+        <p>To set the max amount of subscriptions a topic can have use the <code><a href="#method-setmaxsubscriptions" data-target-tab="api">:SetMaxSubscriptions()</a></code> method.</p>
+        <pre class="example-code"> <code class="language-lua">local MyTopic = Pulse.newTopic(MyServer, "MyTopic")
+MyTopic:SetMaxSubscriptions(5) -- If you want your it to be infinite, don't pass any arguments. (infinite by default)
+</code></pre>
+</div>
+
+            <div id="api" class="tab-content">
+                <div class="api-search">
+                    <input type="text" id="searchInput" placeholder="Search for a method" />
+                </div>
+
+                <h2 class="card-title">API Reference</h2>
+
+                <h3 id="method-newserver" class="method-name">.newServer() <span class="method-modifier constructor">[Constructor]</span> <span class="method-modifier static">[Static]</span> </h3>
+                <br><p>Creates a new server.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">serverName</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">The name of the server.</span>
+
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text"> Returns the server. </span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-newtopic" class="method-name">.newTopic() <span class="method-modifier constructor">[Constructor]</span> <span class="method-modifier static">[Static]</span> </h3>
+                <br><p>Creates a new topic.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">server</span>
+                        <span class="param-type">Server</span>
+                        <span class="param-desc">The server object.</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">topicName</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">The name of the topic.</span>
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text"> Returns the topic.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-getserver" class="method-name">.GetServer() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier readonly">[Read Only]</span> <span class="method-modifier nullable">[Nullable]</span> </h3>
+                <br><p>Returns the server object from the name.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">serverName</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">The name of the server you want to get.</span>
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text"> Returns the Server.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-gettopic" class="method-name">.GetTopic() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier readonly">[Read Only]</span> <span class="method-modifier nullable">[Nullable]</span> </h3>
+                <br><p>Returns the topic object from the name.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">topicName</span>
+                        <span class="param-type">string</span>
+                        <span class="param-desc">The name of the topic you want to get.</span>
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text"> Returns the Topic.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-gettopics" class="method-name">.GetTopics() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier readonly">[Read Only]</span> </h3>
+                <br><p>Returns all topics inside a table.</p>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text"> Returns a table with topics.</span>
+                    </div>
+                </div>
+                
+                <br><h3 id="method-getservers" class="method-name">.GetServers() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier readonly">[Read Only]</span> </h3>
+                <br><p>Returns all servers inside a table.</p>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text"> Returns a table with servers.</span>
+                    </div>
+                </div>
+
+                <h3 id="method-subscribe" class="method-name">:Subscribe() <span class="method-modifier instance">[Instance]</span> </h3>
+                <br><p>Subscribes to a topic.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">topic</span>
+                        <span class="param-type">Topic</span>
+                        <span class="param-desc">The topic instance to subscribe.</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">callback</span>
+                        <span class="param-type">Function</span>
+                        <span class="param-desc">The callback that will be executed when data gets sent.</span>
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text">The callback returns a data table.</span>
+                    </div>
+                    <div class="return">
+                        <span class="return-text">The method returns a CallbackResult.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-unsubscribe" class="method-name">:Unsubscribe() <span class="method-modifier instance">[Instance]</span>  </h3>
+                <br><p>Unsubscribes from a topic.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">topic</span>
+                        <span class="param-type">Topic</span>
+                        <span class="param-desc">The topic instance to unsubscribe.</span>
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text">Returns a CallbackResult.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-publish" class="method-name">:Publish() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier async">[Async]</span> </h3>
+                <br><p>Publishes data to a topic.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">topic</span>
+                        <span class="param-type">Topic</span>
+                        <span class="param-desc">The topic instance to send data to.</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">data</span>
+                        <span class="param-type">any</span>
+                        <span class="param-desc">The data to be published.</span>
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text">Returns a CallbackResult.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-publishbatch" class="method-name">:PublishBatch() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier async">[Async]</span> </h3>
+                <br><p>Publishes data to multiple topics.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">topics</span>
+                        <span class="param-type">{ Topic }</span>
+                        <span class="param-desc">The table of topics to send data to.</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">data</span>
+                        <span class="param-type">any</span>
+                        <span class="param-desc">The data to be published.</span>
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text">Returns a CallbackResult.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-schedule" class="method-name">:Schedule() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier async">[Async]</span> <span class="method-modifier yields">[Yields]</span> </h3>
+                <br><p>Publishes data to a topic after a delay.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">topic</span>
+                        <span class="param-type">Topic</span>
+                        <span class="param-desc">The topic instance to send data to.</span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">delayTime</span>
+                        <span class="param-type">number</span>
+                        <span class="param-desc">The delay to wait. <span class="method-modifier optional">[Optional]</span> </span>
+                    </div>
+                    <div class="param">
+                        <span class="param-name">data</span>
+                        <span class="param-type">any</span>
+                        <span class="param-desc">The data to be published.</span>
+                    </div>
+                </div>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text">Returns a CallbackResult.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-gettopicst" class="method-name">:GetTopics() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier readonly">[Read Only]</span> </h3>
+                <br><p>Returns the topics associated with a server.</p>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text">Returns a tabe with topics.</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-getservert" class="method-name">:GetServer() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier readonly">[Read Only]</span> <span class="method-modifier nullable">[Nullable]</span> </h3>
+                <br><p>Returns the server of a topic.</p>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text">Returns the server associated with a topic</span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-destroy" class="method-name">:Destroy() <span class="method-modifier instance">[Instance]</span> </h3>
+                <br><p>Destroys a topic.</p>
+
+                <br><h3 id="method-getsubscriptions" class="method-name">:GetSubscriptions() <span class="method-modifier instance">[Instance]</span> <span class="method-modifier readonly">[Read Only]</span> </h3>
+                <br><p>Returns the amount of subscriptions a topic has.</p>
+                <div class="returns">
+                    <h1>Returns</h1>
+                    <div class="return">
+                        <span class="return-text"> Returns a number </span>
+                    </div>
+                </div>
+
+                <br><h3 id="method-setmaxsubscriptions" class="method-name">:SetMaxSubscriptions() <span class="method-modifier instance">[Instance]</span> </h3>
+                <br><p>Sets the max subscriptions a topic can have.</p>
+                <div class="params">
+                    <h1>Paramaters</h1>
+                    <div class="param">
+                        <span class="param-name">limit</span>
+                        <span class="param-type">number</span>
+                        <span class="param-desc">The limit of subscriptions it can have. (Default is infinite) <span class="method-modifier optional">[Optional]</span> </span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="changelogs" class="tab-content">
+                <h2 class="card-title">Change Logs</h2>
+                <br><h1>19.08.2025</h1><br>
+                <p>Release day!</p>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
